@@ -1,0 +1,12 @@
+.FixedHeightContainer
+{
+  flex-grow:none;
+  height: 250px;
+  width:1000px;  
+}
+.FixedWidthContainer
+{
+  flex-grow:none;
+  height: 250px;
+  width:1000px;  
+}

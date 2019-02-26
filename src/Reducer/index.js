@@ -1,37 +1,64 @@
 import { combineReducers } from 'redux';
-// import { filterArrById } from '../Actions/methods';
 import initState from './initState';
 // import UpdateFoodItemReducer from './UpdateFoodItemReducer';
-
 
 
 function MainReducer(state = initState, action) {
     switch(action.type) {
         case 'GET_ACCOUNTS' : {
-            return state;
-            // return {
-            //     ...state,
-            //     loading: true
-            // }
+            // return state;
+            return {
+                ...state,
+                loading: true
+            }
         }
         case 'GET_ACCOUNTS_SUCCESS': {
-            return state;
-            // return {
-            //     ...state,
-            //     groceryList: action.groceryList,
-            //     loading: false
-            // }
+            // return state;
+            return {
+                ...state,
+                accounts: action.accounts,
+                loading: false
+            }
         }
 
         case 'GET_ACCOUNTS_FAILURE': {
-            return state;
-            // return {
-            //     ...state,
-            //     message: action.message,
-            //     groceryList: [],
-            //     loading: false
+            // return state;
+            return {
+                ...state,
+                message: action.message,
+                loading: false
             }
-        // }
+        }
+
+        case 'SHOW_LIST_TRUE': {
+            return {
+                ...state,
+                showList: true,
+            }
+        }
+
+        case 'SHOW_LIST_FALSE': {
+            return {
+                ...state,
+                showList: false
+            }
+        }
+
+        case 'SHOW_DETAIL_TRUE': {
+            let accountId = action.payload
+            return {
+                ...state,
+                showDetail: true,
+                currentAccount: accountId
+            }
+        }
+
+        case 'SHOW_DETAIL_FALSE': {
+            return {
+                ...state,
+                showDetail: false
+            }
+        }
         
         // case 'SELECT_GROCERY_ITEM': {
         //     return {

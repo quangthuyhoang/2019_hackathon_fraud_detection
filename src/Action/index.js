@@ -9,39 +9,42 @@ export function handleInputChange(txt) {
 }
 
 // GET Grocery LIST ACTION
-const GetAccounts = () => ({
+export const GetAccounts = () => ({
     type: 'GET_ACCOUNTS_BEGINS'
 })
 
-function GetAccountsSuccess(item) {
+export const GetAccountsSuccess = (accounts) => {
     return {
-        type: 'GET_ACCOUNT_SUCCESS',
-        accounts: item //type array
+        type: 'GET_ACCOUNTS_SUCCESS',
+        accounts: accounts //type array
     }
 }
 
-function GetAccountsFailure(ErrorMessage) {
+export const GetAccountsFailure = (ErrorMessage) => {
     return {
-        type: 'GET_GROCERY_FAILURE',
+        type: 'GET_ACCOUNTS_FAILURE',
         message: ErrorMessage
     }
 }
 
-
-
-export function GetAccountsList(query) {  
+export function GetAccountsList() {  
     return function(dispatch) {
         dispatch(GetAccounts())
         return getAccounts().then(res => res.json())
         .then(data => {
             console.log("accounts", data);
             // On Error
-            if(data.errors) {
-                
-                // dispatch(GetGroceryFailure(data.errors.error[0].message))
-            } else {
-            // On Success
-                // dispatch(GetGrocerySuccess(data.list.item))
+            if(data.status !== 200) {
+                dispatch(GetAccountsFailure(
+                    'Failed to get account data'
+                    ))
+            } 
+            
+            if(data.accounts >= 0) {
+                dispatch(GetAccountsSuccess(data.accounts))
+            }
+            else {
+            console.log("There's no data, accounts received:", data)
             }
         })
         .catch((err) => {
@@ -51,6 +54,50 @@ export function GetAccountsList(query) {
     }
   }
 
+export const showList = () => {
+    return {
+        type: 'SHOW_LIST_TRUE',
+    }
+} 
+
+export const hideList = {
+    type: 'SHOW_LIST_FALSE'
+}
+
+export function showListCard(id) {
+    return function(dispatch) {
+        dispatch(showList())
+    }
+}
+
+export function hideListCard() {
+    return function(dispatch) {
+        dispatch(hideList())
+    }
+}
+
+export const showDetail = (id) => {
+    return {
+        type: 'SHOW_DETAIL_TRUE',
+        payload: id
+    }
+} 
+
+export const hideDetail = {
+    type: 'SHOW_DETAIL_FALSE'
+}
+
+export function showAccountDetail(id) {
+    return function(dispatch) {
+        dispatch(showDetail(id))
+    }
+}
+
+export function hideAccountDetail() {
+    return function(dispatch) {
+        dispatch(hideDetail())
+    }
+}
 //   // GROCERY LIST SELECTION ACTIONS
 // function groceryItemSelect(item) {
 //     return {

@@ -1,35 +1,56 @@
 import env from '../env';
+import { 
+  accountsResponse,
+  bankAuditResponse,
+  emailaddressauditResponse,
+  addressauditReponse,
+  eftauditReponse
+ } from '../mockdata/json';
 
 const baseUrl = 'https://uat.cloud.api.aig.net/valic/valic-fraud-detection-api/v1/';
 const test = 'https://valic-fraud-detection-api.apps.nprd-pcf.aig.net/v1/';
 
 // 
 export const getBaseApiRequest = (args) => {
-  // return fetch( baseUrl + `${args.params}`, {
-  return fetch('www.google.com', {
+  return fetch( baseUrl + `${args.params}`, {
+  // return fetch('www.google.com', {
   method: 'GET',
   mode: 'no-cors',
   // protocol:'http:',
   headers: {
     'Accept': 'application/json',
     'Content-Type': 'application/json; charset=utf-8',
-    // 'apikey': 'GBXy3sxSgHmpyGDhp5u44AEcu1iYrPMo',
+    'apikey': 'GBXy3sxSgHmpyGDhp5u44AEcu1iYrPMo',
     // 'Authorization': 'Basic YWRtaW46c2VjcmV0',
   }
  })
 }
+
+// 70 years age  0
+// account age >= 10
+// assets value > 10000
 // Get Accounts - 1st API request
 export const getAccounts = () => {
   const options = {
     params: 'accounts'
   }
-  return getBaseApiRequest(options)
-    // .then(data => {
-    //   console.log(data)
-    // })
-    // .catch(err => {
-    //   console.log(err)
-    // })
+  console.log(accountsResponse.accounts)
+  // Mock Data
+  return accountsResponse.accounts.filter(account => {
+    let clientAge = account.participantAge;
+    let totalAssets = account.totalAssets;
+    if(typeof clientAge === 'string') {
+      clientAge = Number(clientAge);
+    }
+
+    if(typeof totalAssets === 'string') {
+      totalAssets = Number(totalAssets);
+    }
+    
+    if ( clientAge >= 70 && Number(totalAssets) >= 10000) {
+      return account; 
+    }
+  })
 }
 // Get Calllogs - 2nd API request
 export const getCallLogs= (participantId) => {

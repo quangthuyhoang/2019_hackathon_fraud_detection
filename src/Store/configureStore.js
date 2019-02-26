@@ -1,10 +1,10 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
+import thunk from 'redux-thunk';
 import rootReducer from '../Reducer/index';
-import initState from '../Reducer/initState'
+// import initState from '../Reducer/initState';
 
-export default function configureStore() {
-  const store = (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(rootReducer, initState);
-
+// export default function configureStore() {
+//   const store = (window.devToolsExtension ? window.devToolsExtension()(createStore) : createStore)(rootReducer, initState);
 //   if (module.hot) {
 //     // Enable Webpack hot module replacement for reducers
 //     module.hot.accept('../Reducers/index.js', () => {
@@ -13,8 +13,8 @@ export default function configureStore() {
 //     });
 //   }
 
-  return store;
-}
+//   return store;
+// }
 
 // import { createStore, applyMiddleware } from 'redux';
 // import { createLogger } from 'redux-logger';
@@ -25,11 +25,13 @@ export default function configureStore() {
 // // import reducers
 // import MainApp from '../Reducer/';
 
-// export function configureStore() {
-//     return createStore( 
-//         MainApp, 
-//         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__(),
-//         applyMiddleware(thunk, createLogger())
-//     )
-// }
+export default function configureStore() {
+  return createStore(
+    rootReducer, 
+    compose(
+      applyMiddleware(thunk), 
+      window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
+  )
+}
 

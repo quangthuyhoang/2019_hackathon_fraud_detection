@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import Main from '../Component/Main';
+import Detail from '../Component/Detail';
 import * as action from '../Action/index';
 import { bindActionCreators } from 'redux';
 
@@ -12,11 +12,9 @@ const mapStateToProps = (state) => {
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-    getAccountList: bindActionCreators(action.GetAccountsList, dispatch),
-    showList: bindActionCreators(action.showListCard, dispatch),
-    hideList: bindActionCreators(action.hideListCard, dispatch)
+    getAccountList: bindActionCreators(action.GetAccountsList, dispatch)
 })
 
-const MainContainer = connect(mapStateToProps, mapDispatchToProps)(Main);
+const DetailContainer = connect(mapStateToProps, mapDispatchToProps)(Detail);
 
-export default MainContainer;
+export default DetailContainer;
